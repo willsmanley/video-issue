@@ -158,6 +158,22 @@ class _VideoAppState extends State<VideoApp> {
           _controller2.setLooping(true);
         });
       });
+
+    Future.delayed(const Duration(seconds: 5), () {
+      setState(() {
+        _controller2.setVolume(0);
+        _controller2.play();
+        _controller2.setLooping(true);
+      });
+    });
+
+    Future.delayed(const Duration(seconds: 10), () {
+      setState(() {
+        _controller1.setVolume(0);
+        _controller1.play();
+        _controller1.setLooping(true);
+      });
+    });
   }
 
   @override
@@ -182,22 +198,6 @@ class _VideoAppState extends State<VideoApp> {
                     )
                   : Container(),
             ],
-          ),
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            setState(() {
-              if (_controller1.value.isPlaying) {
-                _controller1.pause();
-                _controller2.pause();
-              } else {
-                _controller1.play();
-                _controller2.play();
-              }
-            });
-          },
-          child: Icon(
-            _controller1.value.isPlaying ? Icons.pause : Icons.play_arrow,
           ),
         ),
       ),
