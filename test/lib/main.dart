@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:video_player/video_player.dart';
+import 'package:flutter_vlc_player/flutter_vlc_player.dart';
 
 void main() {
   runApp(const MyApp());
@@ -133,31 +133,33 @@ class VideoApp extends StatefulWidget {
 }
 
 class _VideoAppState extends State<VideoApp> {
-  late VideoPlayerController _controller1;
-  late VideoPlayerController _controller2;
+  late VlcPlayerController _controller1;
+  late VlcPlayerController _controller2;
 
   @override
   void initState() {
     super.initState();
-    _controller1 = VideoPlayerController.networkUrl(Uri.parse(
-        'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4'))
-      ..initialize().then((_) {
-        setState(() {
-          _controller1.setVolume(0);
-          _controller1.play();
-          _controller1.setLooping(true);
-        });
-      });
+    _controller1 = VlcPlayerController.network(
+      'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
+      hwAcc: HwAcc.auto,
+      autoPlay: true,
+      options: VlcPlayerOptions(),
+    );
 
-    _controller2 = VideoPlayerController.networkUrl(Uri.parse(
-        'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4'))
-      ..initialize().then((_) {
-        setState(() {
-          _controller2.setVolume(0);
-          _controller2.play();
-          _controller2.setLooping(true);
-        });
-      });
+    _controller2 = VlcPlayerController.network(
+      'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
+      hwAcc: HwAcc.auto,
+      autoPlay: true,
+      options: VlcPlayerOptions(),
+    );
+
+    _controller1.setVolume(0);
+    _controller1.play();
+    _controller1.setLooping(true);
+
+    _controller2.setVolume(0);
+    _controller2.play();
+    _controller2.setLooping(true);
   }
 
   @override
@@ -169,18 +171,20 @@ class _VideoAppState extends State<VideoApp> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              _controller1.value.isInitialized
-                  ? AspectRatio(
-                      aspectRatio: _controller1.value.aspectRatio,
-                      child: VideoPlayer(_controller1),
-                    )
-                  : Container(),
-              _controller2.value.isInitialized
-                  ? AspectRatio(
-                      aspectRatio: _controller2.value.aspectRatio,
-                      child: VideoPlayer(_controller2),
-                    )
-                  : Container(),
+              ClipOval(
+                child: VlcPlayer(
+                  controller: _controller1,
+                  aspectRatio: 16 / 9,
+                  placeholder: Center(child: CircularProgressIndicator()),
+                ),
+              ),
+              ClipOval(
+                child: VlcPlayer(
+                  controller: _controller2,
+                  aspectRatio: 16 / 9,
+                  placeholder: Center(child: CircularProgressIndicator()),
+                ),
+              ),
             ],
           ),
         ),

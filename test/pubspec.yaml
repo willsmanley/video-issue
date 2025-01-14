@@ -37,6 +37,7 @@ dependencies:
   cupertino_icons: ^1.0.8
   mixpanel_flutter: ^2.3.3
   video_player: ^2.9.2
+  flutter_vlc_player: ^7.4.2
 
 dev_dependencies:
   flutter_test:
